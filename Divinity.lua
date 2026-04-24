@@ -528,13 +528,13 @@ local Tabs = {
 -- // HOME
 -- ============================================================
 Tabs.Home:AddParagraph({
-    Title   = "GDEV SMELLING SALTS",
+    Title   = "Welcome",
     Content = "Hello dear owner, I'm sorry that no one wants to use your script,\nits okay though cause you have yourself BAAAAAHAHAHAHAHAH-",
 })
 
 Tabs.Home:AddParagraph({
     Title   = "Supported Executors",
-    Content = "Ronix, Solara, Wave, Zorara, Celery, Fluxus",
+    Content = "Every Executor Except level 3's or 2's",
 })
 
 Tabs.Home:AddButton({
