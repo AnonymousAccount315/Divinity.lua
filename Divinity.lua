@@ -3,7 +3,7 @@
 -- // By Divine
 
 -- ============================================================
--- // KEY (obfuscated)
+-- // KEY SYSTEM (obfuscated)
 -- ============================================================
 local function _dk()
     local p = {"jUhCI","lHXXa","fjAtKg","gAQHku","dOLrsR","tBzO"}
@@ -11,8 +11,21 @@ local function _dk()
     for i = 1, #p do s = s .. p[i] end
     return s
 end
-local VALID_KEY = _dk()
-local KEY_FILE  = "Divinity_Key.txt"
+
+-- User definitions
+-- Format: [username_lower] = { key = "KEY", bypass = true/false }
+local USER_CONFIG = {
+    -- Owner accounts — instant bypass, no key needed
+    ["divonz6"]        = { bypass = true  },
+    ["youssef_marcos"] = { bypass = true  },
+    ["divine012902"]   = { bypass = true  },
+    -- Friend account — has own key
+    ["noaukaj"]        = { bypass = false, key = "MEOWL" },
+}
+
+local VALID_KEY  = _dk()
+local KEY_FILE   = "Divinity_Key.txt"
+local OWNER_FILE = "Divinity_Owner.txt" -- lets owner force-show key screen
 
 -- ============================================================
 -- // SERVICES
@@ -24,6 +37,21 @@ local RunService         = game:GetService("RunService")
 local UserInputService   = game:GetService("UserInputService")
 local Lighting           = game:GetService("Lighting")
 local LocalPlayer        = Players.LocalPlayer
+
+-- ============================================================
+-- // FIGURE OUT WHO IS RUNNING THIS
+-- ============================================================
+local username     = LocalPlayer.Name:lower()
+local userConfig   = USER_CONFIG[username]
+local isOwner      = userConfig and userConfig.bypass == true
+local isFriend     = userConfig and userConfig.bypass == false
+local friendKey    = isFriend and userConfig.key or nil
+
+-- Owner can force show key screen by having Divinity_Owner.txt = "showkey"
+local ownerForcesKey = false
+if isOwner and isfile and isfile(OWNER_FILE) then
+    ownerForcesKey = readfile(OWNER_FILE) == "showkey"
+end
 
 -- ============================================================
 -- // SUPPORTED GAMES
@@ -41,12 +69,13 @@ pcall(function()
 end)
 
 -- ============================================================
--- // KEY SYSTEM
+-- // KEY SYSTEM UI BUILDER
 -- ============================================================
-local function checkKey()
-    if isfile and isfile(KEY_FILE) then
-        local saved = readfile(KEY_FILE)
-        if saved == VALID_KEY then return true end
+local function buildKeyUI(keyToCheck, keyFile, titleText, subtitleText)
+    -- Check saved key first
+    if isfile and isfile(keyFile) then
+        local saved = readfile(keyFile)
+        if saved == keyToCheck then return true end
     end
 
     local ScreenGui = Instance.new("ScreenGui")
@@ -66,6 +95,7 @@ local function checkKey()
     Backdrop.BorderSizePixel = 0
     Backdrop.ZIndex = 1
 
+    -- Unsupported game warning
     if not isSupported then
         local WCard = Instance.new("Frame", ScreenGui)
         WCard.Size = UDim2.fromOffset(500,200)
@@ -118,15 +148,15 @@ local function checkKey()
         WBtn.MouseButton1Click:Connect(function()
             dismissed = true
             TweenService:Create(WCard, TweenInfo.new(0.2), {BackgroundTransparency=1}):Play()
-            task.wait(0.25)
-            WCard:Destroy()
+            task.wait(0.25) WCard:Destroy()
         end)
         while not dismissed do task.wait(0.05) end
     end
 
+    -- Key card
     local Card = Instance.new("Frame", ScreenGui)
-    Card.Size = UDim2.fromOffset(460,270)
-    Card.Position = UDim2.new(0.5,-230,0.5,-135)
+    Card.Size = UDim2.fromOffset(460,290)
+    Card.Position = UDim2.new(0.5,-230,0.5,-145)
     Card.BackgroundColor3 = Color3.fromRGB(18,18,18)
     Card.BorderSizePixel = 0
     Card.ZIndex = 2
@@ -135,38 +165,43 @@ local function checkKey()
     local CS = Instance.new("UIStroke", Card)
     CS.Color = Color3.fromRGB(50,50,50)
     CS.Thickness = 1
+
     local SideBar = Instance.new("Frame", Card)
     SideBar.Size = UDim2.new(0,3,1,0)
     SideBar.BackgroundColor3 = Color3.fromRGB(50,120,255)
     SideBar.BorderSizePixel = 0
     SideBar.ZIndex = 3
     Instance.new("UICorner", SideBar).CornerRadius = UDim.new(0,10)
+
     local Header = Instance.new("Frame", Card)
     Header.Size = UDim2.new(1,0,0,52)
     Header.BackgroundColor3 = Color3.fromRGB(24,24,24)
     Header.BorderSizePixel = 0
     Header.ZIndex = 3
     Instance.new("UICorner", Header).CornerRadius = UDim.new(0,10)
+
     local HTitle = Instance.new("TextLabel", Header)
     HTitle.Size = UDim2.new(1,-20,0,28)
     HTitle.Position = UDim2.fromOffset(14,6)
     HTitle.BackgroundTransparency = 1
-    HTitle.Text = "Divinity"
+    HTitle.Text = titleText or "Divinity"
     HTitle.TextColor3 = Color3.fromRGB(255,255,255)
     HTitle.Font = Enum.Font.GothamBold
     HTitle.TextSize = 16
     HTitle.TextXAlignment = Enum.TextXAlignment.Left
     HTitle.ZIndex = 4
+
     local HSub = Instance.new("TextLabel", Header)
     HSub.Size = UDim2.new(1,-20,0,18)
     HSub.Position = UDim2.fromOffset(14,28)
     HSub.BackgroundTransparency = 1
-    HSub.Text = "Key System  —  discord.gg/wAAHbUg46x"
+    HSub.Text = subtitleText or "Key System  —  discord.gg/wAAHbUg46x"
     HSub.TextColor3 = Color3.fromRGB(110,110,110)
     HSub.Font = Enum.Font.Gotham
     HSub.TextSize = 12
     HSub.TextXAlignment = Enum.TextXAlignment.Left
     HSub.ZIndex = 4
+
     local IL = Instance.new("TextLabel", Card)
     IL.Size = UDim2.new(1,-40,0,16)
     IL.Position = UDim2.fromOffset(20,62)
@@ -177,6 +212,7 @@ local function checkKey()
     IL.Font = Enum.Font.GothamBold
     IL.TextSize = 11
     IL.ZIndex = 3
+
     local IBG = Instance.new("Frame", Card)
     IBG.Size = UDim2.new(1,-40,0,42)
     IBG.Position = UDim2.fromOffset(20,82)
@@ -187,6 +223,7 @@ local function checkKey()
     local IS = Instance.new("UIStroke", IBG)
     IS.Color = Color3.fromRGB(48,48,48)
     IS.Thickness = 1
+
     local IBox = Instance.new("TextBox", IBG)
     IBox.Size = UDim2.new(1,-18,1,0)
     IBox.Position = UDim2.fromOffset(9,0)
@@ -198,12 +235,14 @@ local function checkKey()
     IBox.TextSize = 13
     IBox.ClearTextOnFocus = false
     IBox.ZIndex = 4
+
     local Divider = Instance.new("Frame", Card)
     Divider.Size = UDim2.new(1,-40,0,1)
     Divider.Position = UDim2.fromOffset(20,134)
     Divider.BackgroundColor3 = Color3.fromRGB(40,40,40)
     Divider.BorderSizePixel = 0
     Divider.ZIndex = 3
+
     local SL = Instance.new("TextLabel", Card)
     SL.Size = UDim2.new(1,-40,0,18)
     SL.Position = UDim2.fromOffset(20,140)
@@ -214,6 +253,7 @@ local function checkKey()
     SL.Font = Enum.Font.Gotham
     SL.TextSize = 12
     SL.ZIndex = 3
+
     local SBtn = Instance.new("TextButton", Card)
     SBtn.Size = UDim2.new(1,-40,0,40)
     SBtn.Position = UDim2.fromOffset(20,162)
@@ -226,6 +266,7 @@ local function checkKey()
     SBtn.AutoButtonColor = false
     SBtn.ZIndex = 3
     Instance.new("UICorner", SBtn).CornerRadius = UDim.new(0,7)
+
     local DiscordBtn = Instance.new("TextButton", Card)
     DiscordBtn.Size = UDim2.new(1,-40,0,26)
     DiscordBtn.Position = UDim2.fromOffset(20,212)
@@ -240,6 +281,26 @@ local function checkKey()
     DiscordBtn.MouseButton1Click:Connect(function()
         if setclipboard then setclipboard("discord.gg/wAAHbUg46x") end
     end)
+
+    -- Owner only: button to disable force-key next time
+    if isOwner and ownerForcesKey then
+        local ResetBtn = Instance.new("TextButton", Card)
+        ResetBtn.Size = UDim2.new(1,-40,0,26)
+        ResetBtn.Position = UDim2.fromOffset(20,244)
+        ResetBtn.BackgroundColor3 = Color3.fromRGB(40,20,20)
+        ResetBtn.TextColor3 = Color3.fromRGB(200,100,100)
+        ResetBtn.Text = "Turn off force-show key screen"
+        ResetBtn.Font = Enum.Font.Gotham
+        ResetBtn.TextSize = 12
+        ResetBtn.BorderSizePixel = 0
+        ResetBtn.ZIndex = 3
+        Instance.new("UICorner", ResetBtn).CornerRadius = UDim.new(0,7)
+        ResetBtn.MouseButton1Click:Connect(function()
+            if writefile then writefile(OWNER_FILE, "") end
+            ResetBtn.Text = "Done! Restart script to take effect."
+        end)
+    end
+
     SBtn.MouseEnter:Connect(function()
         TweenService:Create(SBtn, TweenInfo.new(0.12), {BackgroundColor3=Color3.fromRGB(70,140,255)}):Play()
     end)
@@ -256,8 +317,8 @@ local function checkKey()
 
     local validated = false
     SBtn.MouseButton1Click:Connect(function()
-        if IBox.Text == VALID_KEY then
-            if writefile then writefile(KEY_FILE, VALID_KEY) end
+        if IBox.Text == keyToCheck then
+            if writefile then writefile(keyFile, keyToCheck) end
             validated = true
             SL.TextColor3 = Color3.fromRGB(80,255,120)
             SL.Text = "Key accepted! Loading Divinity..."
@@ -275,12 +336,28 @@ local function checkKey()
             TweenService:Create(IBG, TweenInfo.new(0.15), {BackgroundColor3=Color3.fromRGB(28,28,28)}):Play()
         end
     end)
+
     while not validated and ScreenGui.Parent do task.wait(0.08) end
     if not validated then error("[Divinity] Key not validated.") end
     return true
 end
 
-if not checkKey() then return end
+-- ============================================================
+-- // RUN KEY CHECK BASED ON USER
+-- ============================================================
+if isOwner and not ownerForcesKey then
+    -- Owner with no force flag = instant bypass, no UI shown
+    -- do nothing
+elseif isOwner and ownerForcesKey then
+    -- Owner chose to see the key screen
+    if not buildKeyUI(VALID_KEY, KEY_FILE, "Divinity — Owner Mode", "You chose to see this screen.") then return end
+elseif isFriend then
+    -- Friend has their own key
+    if not buildKeyUI(friendKey, "Divinity_Friend_" .. username .. ".txt", "Divinity — Key System", "Key System  —  discord.gg/wAAHbUg46x") then return end
+else
+    -- Anyone else uses the default key
+    if not buildKeyUI(VALID_KEY, KEY_FILE, "Divinity", "Key System  —  discord.gg/wAAHbUg46x") then return end
+end
 
 -- ============================================================
 -- // LIBRARIES
@@ -289,7 +366,7 @@ local Fluent           = loadstring(game:HttpGet("https://github.com/dawid-scrip
 local SaveManager      = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
--- // Workspace folder setup
+-- Workspace folders
 if isfolder and not isfolder("Divinity") then makefolder("Divinity") end
 if isfolder and not isfolder("Divinity/Music") then makefolder("Divinity/Music") end
 if isfolder and not isfolder("Divinity/configs") then makefolder("Divinity/configs") end
@@ -315,7 +392,6 @@ local FontMap = {
     ["Fantasy"]    = Enum.Font.Fantasy,
 }
 
--- // State
 local Toggles = {
     GodMode         = false,
     BringNPCs       = false,
@@ -353,18 +429,17 @@ local crosshairSize   = 20
 local crosshairThick  = 2
 local crosshairGap    = 5
 local crosshairColor  = Color3.fromRGB(255, 255, 255)
-local crosshairAlpha  = 1
 local spinSpeed       = 2
 
 -- ============================================================
--- // CROSSHAIR (Drawing API)
+-- // CROSSHAIR
 -- ============================================================
 local chLines = {}
 for i = 1, 4 do
     local l = Drawing.new("Line")
     l.Color = crosshairColor
     l.Thickness = crosshairThick
-    l.Transparency = crosshairAlpha
+    l.Transparency = 1
     l.Visible = false
     chLines[i] = l
 end
@@ -373,7 +448,7 @@ chDot.Color = crosshairColor
 chDot.Thickness = 1
 chDot.Filled = true
 chDot.Radius = 2
-chDot.Transparency = crosshairAlpha
+chDot.Transparency = 1
 chDot.Visible = false
 
 local function updateCrosshair()
@@ -385,7 +460,6 @@ local function updateCrosshair()
         cx = workspace.CurrentCamera.ViewportSize.X / 2
         cy = workspace.CurrentCamera.ViewportSize.Y / 2
     end
-
     local angle = math.rad(crosshairAngle)
     local dirs = {
         Vector2.new(math.cos(angle), math.sin(angle)),
@@ -393,19 +467,16 @@ local function updateCrosshair()
         Vector2.new(-math.sin(angle), math.cos(angle)),
         Vector2.new(math.sin(angle), -math.cos(angle)),
     }
-
     local center = Vector2.new(cx, cy)
     for i, dir in ipairs(dirs) do
         chLines[i].From = center + dir * crosshairGap
         chLines[i].To   = center + dir * (crosshairGap + crosshairSize)
         chLines[i].Color = crosshairColor
         chLines[i].Thickness = crosshairThick
-        chLines[i].Transparency = crosshairAlpha
         chLines[i].Visible = Toggles.Crosshair
     end
     chDot.Position = center
     chDot.Color = crosshairColor
-    chDot.Transparency = crosshairAlpha
     chDot.Visible = Toggles.Crosshair
 end
 
@@ -420,10 +491,21 @@ local function applyBarFill(fill, hp, maxHp)
     fill.BackgroundColor3 = Color3.fromRGB(r, g, 30)
 end
 
+local function isNPC(model)
+    -- Returns true only if this is NOT a player character
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if plr.Character == model then return false end
+    end
+    return true
+end
+
 local function addESP(npcModel, humanoid)
     if not npcModel then return end
     if npcModel:FindFirstChild("_DivinityESP") then return end
     if npcModel == LocalPlayer.Character then return end
+    -- Skip player characters
+    if not isNPC(npcModel) then return end
+
     local anchor = npcModel:FindFirstChild("HumanoidRootPart")
                 or npcModel:FindFirstChildOfClass("BasePart")
     if not anchor then return end
@@ -447,7 +529,7 @@ local function addESP(npcModel, humanoid)
 
     local nameLabel = Instance.new("TextLabel", bb)
     nameLabel.Name = "_ESPName"
-    nameLabel.Size = UDim2.new(1, 0, 0.55, 0)
+    nameLabel.Size = UDim2.new(1,0,0.55,0)
     nameLabel.BackgroundTransparency = 1
     nameLabel.TextColor3 = ESPNameColor
     nameLabel.TextStrokeTransparency = 0
@@ -458,7 +540,7 @@ local function addESP(npcModel, humanoid)
 
     local hpLabel = Instance.new("TextLabel", bb)
     hpLabel.Name = "_ESPHp"
-    hpLabel.Size = UDim2.new(1, 0, 0.45, 0)
+    hpLabel.Size = UDim2.new(1,0,0.45,0)
     hpLabel.Position = UDim2.new(0,0,0.55,0)
     hpLabel.BackgroundTransparency = 1
     hpLabel.TextColor3 = ESPHPColor
@@ -478,12 +560,11 @@ local function addESP(npcModel, humanoid)
     barBB.Parent = anchor
 
     local barBG = Instance.new("Frame", barBB)
-    barBG.Name = "_ESPBarBG"
-    barBG.Size = UDim2.new(1, 0, 1, 0)
+    barBG.Size = UDim2.new(1,0,1,0)
     barBG.BackgroundColor3 = Color3.fromRGB(15,15,15)
     barBG.BorderSizePixel = 0
     barBG.ClipsDescendants = true
-    Instance.new("UICorner", barBG).CornerRadius = UDim.new(1, 0)
+    Instance.new("UICorner", barBG).CornerRadius = UDim.new(1,0)
     local barStroke = Instance.new("UIStroke", barBG)
     barStroke.Color = Color3.fromRGB(0,0,0)
     barStroke.Thickness = 1
@@ -491,17 +572,16 @@ local function addESP(npcModel, humanoid)
 
     local barFill = Instance.new("Frame", barBG)
     barFill.Name = "_ESPBarFill"
-    barFill.AnchorPoint = Vector2.new(0, 1)
+    barFill.AnchorPoint = Vector2.new(0,1)
     barFill.Position = UDim2.new(0,0,1,0)
-    barFill.Size = UDim2.new(1,0,1,0)
     barFill.BorderSizePixel = 0
-    Instance.new("UICorner", barFill).CornerRadius = UDim.new(1, 0)
+    Instance.new("UICorner", barFill).CornerRadius = UDim.new(1,0)
     local shine = Instance.new("Frame", barFill)
     shine.Size = UDim2.new(0.5,0,1,0)
     shine.BackgroundColor3 = Color3.fromRGB(255,255,255)
     shine.BackgroundTransparency = 0.85
     shine.BorderSizePixel = 0
-    Instance.new("UICorner", shine).CornerRadius = UDim.new(1, 0)
+    Instance.new("UICorner", shine).CornerRadius = UDim.new(1,0)
     applyBarFill(barFill, humanoid.Health, humanoid.MaxHealth)
 
     humanoid:GetPropertyChangedSignal("Health"):Connect(function()
@@ -513,7 +593,6 @@ local function addESP(npcModel, humanoid)
         hpLabel.Text = math.floor(humanoid.Health) .. "/" .. math.floor(humanoid.MaxHealth)
         applyBarFill(barFill, humanoid.Health, humanoid.MaxHealth)
     end)
-
     humanoid.Died:Connect(function()
         task.wait(0.1)
         pcall(function() bb:Destroy() barBB:Destroy() hl:Destroy() end)
@@ -553,17 +632,14 @@ pcall(function()
     end)
 end)
 
--- ============================================================
--- // TABS
--- ============================================================
 local Tabs = {
-    Home     = Window:AddTab({ Title = "Home",            Icon = "home"        }),
-    Combat   = Window:AddTab({ Title = "Combat",          Icon = "sword"       }),
-    Visuals  = Window:AddTab({ Title = "Visuals",         Icon = "eye"         }),
-    Scripts  = Window:AddTab({ Title = "Script Executor", Icon = "terminal"    }),
-    Music    = Window:AddTab({ Title = "Music",           Icon = "music"       }),
-    Patches  = Window:AddTab({ Title = "Patch Notes",     Icon = "file-text"   }),
-    Settings = Window:AddTab({ Title = "Settings",        Icon = "settings"    }),
+    Home     = Window:AddTab({ Title = "Home",            Icon = "home"      }),
+    Combat   = Window:AddTab({ Title = "Combat",          Icon = "sword"     }),
+    Visuals  = Window:AddTab({ Title = "Visuals",         Icon = "eye"       }),
+    Scripts  = Window:AddTab({ Title = "Script Executor", Icon = "terminal"  }),
+    Music    = Window:AddTab({ Title = "Music",           Icon = "music"     }),
+    Patches  = Window:AddTab({ Title = "Patch Notes",     Icon = "file-text" }),
+    Settings = Window:AddTab({ Title = "Settings",        Icon = "settings"  }),
 }
 
 -- ============================================================
@@ -590,6 +666,27 @@ Tabs.Home:AddButton({
     end,
 })
 
+-- Owner-only: toggle force key screen
+if isOwner then
+    Tabs.Home:AddSection("Owner Options")
+    Tabs.Home:AddButton({
+        Title       = "Toggle Force Key Screen",
+        Description = "Next launch will show the key system screen for you",
+        Callback    = function()
+            if writefile then
+                local current = (isfile and isfile(OWNER_FILE)) and readfile(OWNER_FILE) or ""
+                if current == "showkey" then
+                    writefile(OWNER_FILE, "")
+                    Fluent:Notify({ Title = "Owner", Content = "Force key screen OFF. Restart to apply.", Duration = 4 })
+                else
+                    writefile(OWNER_FILE, "showkey")
+                    Fluent:Notify({ Title = "Owner", Content = "Force key screen ON. Restart to apply.", Duration = 4 })
+                end
+            end
+        end,
+    })
+end
+
 -- ============================================================
 -- // COMBAT
 -- ============================================================
@@ -601,30 +698,28 @@ local GodToggle = Tabs.Combat:AddToggle("GodMode", {
 GodToggle:OnChanged(function(v) Toggles.GodMode = v end)
 
 local BringToggle = Tabs.Combat:AddToggle("BringNPCs", {
-    Title = "Bring All NPCs", Description = "Pulls all NPCs 4 studs in front of you", Default = false,
+    Title = "Bring All NPCs", Description = "Pulls all NPCs 4 studs in front of you (players excluded)", Default = false,
 })
 BringToggle:OnChanged(function(v) Toggles.BringNPCs = v end)
 
 local KillAuraToggle = Tabs.Combat:AddToggle("KillAura", {
-    Title = "Kill Aura", Description = "Automatically attacks all NPCs within range", Default = false,
+    Title = "Kill Aura", Description = "Automatically attacks NPCs within range", Default = false,
 })
 KillAuraToggle:OnChanged(function(v) Toggles.KillAura = v end)
 
 local KillAuraSlider = Tabs.Combat:AddSlider("KillAuraDist", {
-    Title = "Kill Aura Distance", Description = "Stud radius to detect NPCs",
+    Title = "Kill Aura Distance", Description = "Stud radius",
     Default = 15, Min = 5, Max = 100, Rounding = 0,
 })
 KillAuraSlider:OnChanged(function(v) KillAuraDist = v end)
 
 Tabs.Combat:AddSection("Modded Weapons")
-
 Tabs.Combat:AddButton({
-    Title       = "Mod All Weapons",
-    Description = "Sets all weapon cooldowns and rates to 0 (pick up weapons first)",
-    Callback    = function()
+    Title = "Mod All Weapons", Description = "Sets all weapon cooldowns to 0 (pick up weapons first)",
+    Callback = function()
         local applied = 0
         local function findTool(name)
-            local p = game.Players.LocalPlayer
+            local p = LocalPlayer
             return p.Backpack:FindFirstChild(name)
                 or (p.Character and p.Character:FindFirstChild(name))
                 or workspace:FindFirstChild(name, true)
@@ -706,15 +801,14 @@ local FOVSlider = Tabs.Combat:AddSlider("FOVSlider", {
 FOVSlider:OnChanged(function(v) FOVValue = v end)
 
 local CamToggle = Tabs.Combat:AddToggle("CamDist", {
-    Title = "Camera Distance Bypass", Description = "Lets you zoom much further out", Default = false,
+    Title = "Camera Distance Bypass", Description = "Zoom camera much further out", Default = false,
 })
 CamToggle:OnChanged(function(v)
     Toggles.CamDist = v
     LocalPlayer.CameraMaxZoomDistance = v and CamDistValue or 400
 end)
 local CamSlider = Tabs.Combat:AddSlider("CamDistSlider", {
-    Title = "Max Zoom Distance", Description = "How far the camera can zoom out",
-    Default = 500, Min = 50, Max = 3000, Rounding = 0,
+    Title = "Max Zoom Distance", Default = 500, Min = 50, Max = 3000, Rounding = 0,
 })
 CamSlider:OnChanged(function(v)
     CamDistValue = v
@@ -727,14 +821,14 @@ end)
 Tabs.Visuals:AddSection("NPC ESP")
 
 local ESPToggle = Tabs.Visuals:AddToggle("ESPToggle", {
-    Title = "Enable NPC ESP", Description = "Name and HP labels above all living NPCs", Default = false,
+    Title = "Enable NPC ESP", Description = "Name and HP labels above all NPCs (players excluded)", Default = false,
 })
 ESPToggle:OnChanged(function(v)
     Toggles.NPC_ESP = v
     if not v then removeAllESP()
     else
         for _, obj in ipairs(workspace:GetDescendants()) do
-            if obj:IsA("Humanoid") and obj.Parent ~= LocalPlayer.Character and obj.Health > 0 then
+            if obj:IsA("Humanoid") and obj.Parent ~= LocalPlayer.Character and obj.Health > 0 and isNPC(obj.Parent) then
                 pcall(addESP, obj.Parent, obj)
             end
         end
@@ -825,7 +919,7 @@ local CHToggle = Tabs.Visuals:AddToggle("CHToggle", {
 CHToggle:OnChanged(function(v) Toggles.Crosshair = v end)
 
 local CHCursorToggle = Tabs.Visuals:AddToggle("CHCursor", {
-    Title = "Follow Cursor", Description = "Crosshair follows your mouse instead of screen center", Default = false,
+    Title = "Follow Cursor", Description = "Crosshair follows your mouse", Default = false,
 })
 CHCursorToggle:OnChanged(function(v) Toggles.CrosshairCursor = v end)
 
@@ -835,26 +929,22 @@ local CHSpinToggle = Tabs.Visuals:AddToggle("CHSpin", {
 CHSpinToggle:OnChanged(function(v) Toggles.CrosshairSpin = v end)
 
 local CHSpinSlider = Tabs.Visuals:AddSlider("CHSpinSpeed", {
-    Title = "Spin Speed", Description = "How fast the crosshair spins",
-    Default = 2, Min = 1, Max = 20, Rounding = 0,
+    Title = "Spin Speed", Default = 2, Min = 1, Max = 20, Rounding = 0,
 })
 CHSpinSlider:OnChanged(function(v) spinSpeed = v end)
 
 local CHSizeSlider = Tabs.Visuals:AddSlider("CHSize", {
-    Title = "Crosshair Size", Description = "Length of each crosshair line",
-    Default = 20, Min = 5, Max = 60, Rounding = 0,
+    Title = "Crosshair Size", Default = 20, Min = 5, Max = 60, Rounding = 0,
 })
 CHSizeSlider:OnChanged(function(v) crosshairSize = v end)
 
 local CHGapSlider = Tabs.Visuals:AddSlider("CHGap", {
-    Title = "Crosshair Gap", Description = "Gap between center and lines",
-    Default = 5, Min = 0, Max = 30, Rounding = 0,
+    Title = "Crosshair Gap", Default = 5, Min = 0, Max = 30, Rounding = 0,
 })
 CHGapSlider:OnChanged(function(v) crosshairGap = v end)
 
 local CHThickSlider = Tabs.Visuals:AddSlider("CHThick", {
-    Title = "Line Thickness", Description = "Thickness of each crosshair line",
-    Default = 2, Min = 1, Max = 8, Rounding = 0,
+    Title = "Line Thickness", Default = 2, Min = 1, Max = 8, Rounding = 0,
 })
 CHThickSlider:OnChanged(function(v) crosshairThick = v end)
 
@@ -865,21 +955,19 @@ CHCP:OnChanged(function(v) crosshairColor = v end)
 -- // SCRIPT EXECUTOR
 -- ============================================================
 Tabs.Scripts:AddSection("Options")
-
 local DestToggle = Tabs.Scripts:AddToggle("DestroyUI", {
-    Title = "Destroy UI on Execute", Description = "Destroys Divinity UI before running any script", Default = false,
+    Title = "Destroy UI on Execute", Default = false,
 })
 DestToggle:OnChanged(function(v) Toggles.DestroyOnExec = v end)
 
 Tabs.Scripts:AddSection("Custom Script")
 Tabs.Scripts:AddInput("ScriptBox", {
-    Title = "Script", Description = "Paste any Lua or loadstring here",
-    Default = "", Placeholder = "loadstring(game:HttpGet(''))()  or  print('hello')",
+    Title = "Script", Default = "", Placeholder = "loadstring(game:HttpGet(''))()  or  print('hello')",
     Numeric = false, Finished = false,
     Callback = function(v) scriptInput = v end,
 })
 Tabs.Scripts:AddButton({
-    Title = "Execute Script", Description = "Runs whatever is in the box above",
+    Title = "Execute Script",
     Callback = function()
         if scriptInput == "" then
             Fluent:Notify({ Title = "Executor", Content = "Paste a script first.", Duration = 3 })
@@ -897,7 +985,7 @@ Tabs.Scripts:AddButton({
 
 Tabs.Scripts:AddSection("Presets")
 Tabs.Scripts:AddButton({
-    Title = "Execute CI Marik Script", Description = "Runs the official Combat Initiation Marik script",
+    Title = "Execute CI Marik Script",
     Callback = function()
         if Toggles.DestroyOnExec then pcall(function() Window:Destroy() end) UIBlur:Destroy() end
         pcall(function()
@@ -907,7 +995,7 @@ Tabs.Scripts:AddButton({
     end,
 })
 Tabs.Scripts:AddButton({
-    Title = "Execute Infinite Yield", Description = "Runs EdgeIY Infinite Yield admin script",
+    Title = "Execute Infinite Yield",
     Callback = function()
         if Toggles.DestroyOnExec then pcall(function() Window:Destroy() end) UIBlur:Destroy() end
         pcall(function()
@@ -918,66 +1006,30 @@ Tabs.Scripts:AddButton({
 })
 
 -- ============================================================
--- // MUSIC TAB
+-- // MUSIC
 -- ============================================================
 Tabs.Music:AddParagraph({
     Title   = "How to use Music",
-    Content = "Place .mp3 or .ogg files inside your executor's\nDivinity/Music folder, then hit Refresh to load them.\nOnly Roblox sound IDs work in-game (paste as rbxassetid://ID).",
+    Content = "Place sound IDs in the box below and hit Play.\nPut files in your Divinity/Music folder for local use.",
 })
 
-local musicList = {"(empty — add files to Divinity/Music)"}
 local currentSound = nil
-
-local musicDropdown = Tabs.Music:AddDropdown("MusicDrop", {
-    Title = "Select Track",
-    Values = musicList,
-    Default = musicList[1],
-})
-
-Tabs.Music:AddButton({
-    Title = "Refresh Music List", Description = "Reloads files from Divinity/Music folder",
-    Callback = function()
-        if listfiles then
-            local files = listfiles("Divinity/Music")
-            if #files > 0 then
-                local names = {}
-                for _, f in ipairs(files) do
-                    local name = f:match("([^/\\]+)$") or f
-                    table.insert(names, name)
-                end
-                musicDropdown:SetValues(names)
-                musicDropdown:SetValue(names[1])
-                Fluent:Notify({ Title = "Music", Content = #names .. " track(s) found.", Duration = 3 })
-            else
-                Fluent:Notify({ Title = "Music", Content = "No files found in Divinity/Music.", Duration = 3 })
-            end
-        else
-            Fluent:Notify({ Title = "Music", Content = "Executor does not support listfiles.", Duration = 3 })
-        end
-    end,
-})
-
 local musicIDInput = ""
+
 Tabs.Music:AddInput("MusicID", {
-    Title = "Roblox Sound ID",
-    Description = "Paste a Roblox asset ID to play music in-game",
-    Default = "", Placeholder = "rbxassetid://1234567890",
+    Title = "Roblox Sound ID", Default = "",
+    Placeholder = "rbxassetid://1234567890",
     Numeric = false, Finished = false,
     Callback = function(v) musicIDInput = v end,
 })
-
 Tabs.Music:AddButton({
-    Title = "Play", Description = "Plays the Roblox sound ID entered above",
+    Title = "Play",
     Callback = function()
         if musicIDInput == "" then
             Fluent:Notify({ Title = "Music", Content = "Enter a sound ID first.", Duration = 3 })
             return
         end
-        if currentSound then
-            currentSound:Stop()
-            currentSound:Destroy()
-            currentSound = nil
-        end
+        if currentSound then currentSound:Stop() currentSound:Destroy() currentSound = nil end
         local s = Instance.new("Sound")
         s.SoundId = musicIDInput
         s.Volume = 0.5
@@ -988,21 +1040,17 @@ Tabs.Music:AddButton({
         Fluent:Notify({ Title = "Music", Content = "Now playing!", Duration = 3 })
     end,
 })
-
 Tabs.Music:AddButton({
-    Title = "Stop", Description = "Stops the currently playing track",
+    Title = "Stop",
     Callback = function()
         if currentSound then
-            currentSound:Stop()
-            currentSound:Destroy()
-            currentSound = nil
+            currentSound:Stop() currentSound:Destroy() currentSound = nil
             Fluent:Notify({ Title = "Music", Content = "Stopped.", Duration = 2 })
         else
             Fluent:Notify({ Title = "Music", Content = "Nothing is playing.", Duration = 2 })
         end
     end,
 })
-
 local VolSlider = Tabs.Music:AddSlider("MusicVol", {
     Title = "Volume", Default = 50, Min = 0, Max = 100, Rounding = 0,
 })
@@ -1013,62 +1061,20 @@ end)
 -- ============================================================
 -- // PATCH NOTES
 -- ============================================================
-Tabs.Patches:AddParagraph({
-    Title   = "v1.0.0 — v14.90.90",
-    Content = "From v1.0.0 to v14.90.90 there is no patch notes.",
-})
-Tabs.Patches:AddParagraph({
-    Title   = "v15.0.0",
-    Content = "Divinity rewritten from scratch with Fluent UI.\nAdded: God Mode, Bring NPCs, Speed, FOV, Infinite Jump.",
-})
-Tabs.Patches:AddParagraph({
-    Title   = "v15.1.0",
-    Content = "Added: NPC ESP with name and HP labels.\nAdded: Highlight Chams with color customization.",
-})
-Tabs.Patches:AddParagraph({
-    Title   = "v15.2.0",
-    Content = "Added: Side health bar (vertical, left/right).\nAdded: ESP font selector with 8 font options.",
-})
-Tabs.Patches:AddParagraph({
-    Title   = "v15.3.0",
-    Content = "Added: Camera Distance Bypass.\nAdded: Script Executor tab with custom script input.",
-})
-Tabs.Patches:AddParagraph({
-    Title   = "v15.4.0",
-    Content = "Added: Key System with game check warning.\nFixed: Disable All Sounds callback error.",
-})
-Tabs.Patches:AddParagraph({
-    Title   = "v15.5.0",
-    Content = "Added: CI Marik script preset.\nAdded: Infinite Yield preset.\nFixed: Combat tab toggles not working.",
-})
-Tabs.Patches:AddParagraph({
-    Title   = "v15.6.0",
-    Content = "Added: Bring NPCs throttle to fix lobby lag.\nFixed: SoundService.Volume error removed.",
-})
-Tabs.Patches:AddParagraph({
-    Title   = "v15.7.0",
-    Content = "Added: Destroy UI on Execute toggle.\nAdded: Supported Executors list on Home tab.",
-})
-Tabs.Patches:AddParagraph({
-    Title   = "v15.8.0",
-    Content = "Added: Ronix to supported executors.\nFixed: Key obfuscation improved.",
-})
-Tabs.Patches:AddParagraph({
-    Title   = "v15.9.0",
-    Content = "Added: UI blur effect when script is open.\nFixed: ESP colorpicker callbacks.",
-})
-Tabs.Patches:AddParagraph({
-    Title   = "v15.10.0",
-    Content = "Added: Game ID whitelist (skip warning for supported games).\nFixed: Welcome message title.",
-})
-Tabs.Patches:AddParagraph({
-    Title   = "v15.11.0",
-    Content = "Added: GDEV SMELLING SALTS notification on load.\nFixed: Executor detection for Ronix.",
-})
-Tabs.Patches:AddParagraph({
-    Title   = "v15.12.0  (Current)",
-    Content = "Added: Kill Aura with distance slider.\nAdded: Modded Weapons button in Combat tab.\nAdded: Custom Crosshair with spin, cursor follow, size, gap, thickness, color.\nAdded: Music tab with Roblox ID player and volume control.\nAdded: Patch Notes tab.\nFixed: Health bar is now a proper vertical side bar.\nFixed: Disable All Sounds lag loop removed.",
-})
+Tabs.Patches:AddParagraph({ Title = "v1.0.0 — v14.90.90", Content = "From v1.0.0 to v14.90.90 there is no patch notes." })
+Tabs.Patches:AddParagraph({ Title = "v15.0.0", Content = "Divinity rewritten with Fluent UI.\nAdded: God Mode, Bring NPCs, Speed, FOV, Infinite Jump." })
+Tabs.Patches:AddParagraph({ Title = "v15.1.0", Content = "Added: NPC ESP with name and HP labels.\nAdded: Highlight Chams." })
+Tabs.Patches:AddParagraph({ Title = "v15.2.0", Content = "Added: Side health bar (vertical).\nAdded: ESP font selector." })
+Tabs.Patches:AddParagraph({ Title = "v15.3.0", Content = "Added: Camera Distance Bypass.\nAdded: Script Executor tab." })
+Tabs.Patches:AddParagraph({ Title = "v15.4.0", Content = "Added: Key System with game check warning." })
+Tabs.Patches:AddParagraph({ Title = "v15.5.0", Content = "Added: CI Marik and Infinite Yield presets." })
+Tabs.Patches:AddParagraph({ Title = "v15.6.0", Content = "Fixed: Bring NPCs throttled to prevent lobby lag." })
+Tabs.Patches:AddParagraph({ Title = "v15.7.0", Content = "Added: Destroy UI on Execute toggle." })
+Tabs.Patches:AddParagraph({ Title = "v15.8.0", Content = "Added: Ronix to supported executors." })
+Tabs.Patches:AddParagraph({ Title = "v15.9.0", Content = "Added: UI blur effect." })
+Tabs.Patches:AddParagraph({ Title = "v15.10.0", Content = "Added: Game ID whitelist." })
+Tabs.Patches:AddParagraph({ Title = "v15.11.0", Content = "Added: GDEV SMELLING SALTS notification." })
+Tabs.Patches:AddParagraph({ Title = "v15.12.0  (Current)", Content = "Added: Kill Aura with distance slider.\nAdded: Modded Weapons button.\nAdded: Custom Crosshair with spin and cursor follow.\nAdded: Music tab.\nAdded: Patch Notes tab.\nAdded: Multi-user key system (owner bypass, friend keys).\nFixed: Bring NPCs and ESP now ignore player characters.\nFixed: Disable All Sounds lag loop removed." })
 
 -- ============================================================
 -- // SETTINGS
@@ -1111,7 +1117,7 @@ end)
 workspace.DescendantAdded:Connect(function(obj)
     if Toggles.NPC_ESP and obj:IsA("Humanoid") then
         task.wait()
-        if obj.Parent and obj.Parent ~= LocalPlayer.Character then
+        if obj.Parent and obj.Parent ~= LocalPlayer.Character and isNPC(obj.Parent) then
             pcall(addESP, obj.Parent, obj)
         end
     end
@@ -1130,18 +1136,17 @@ RunService.Heartbeat:Connect(function()
     if Toggles.GodMode and hum and hum.Health < hum.MaxHealth then
         hum.Health = hum.MaxHealth
     end
-
     if Toggles.Speed and hum then hum.WalkSpeed = SpeedValue end
-
     if Toggles.FOV then
         local cam = workspace.CurrentCamera
         if cam then cam.FieldOfView = FOVValue end
     end
 
+    -- Bring NPCs (players excluded)
     if Toggles.BringNPCs and root and (now - lastBring) >= 0.2 then
         lastBring = now
         for _, obj in ipairs(workspace:GetDescendants()) do
-            if obj:IsA("Humanoid") and obj.Parent ~= char and obj.Health > 0 then
+            if obj:IsA("Humanoid") and obj.Parent ~= char and obj.Health > 0 and isNPC(obj.Parent) then
                 local npcRoot = obj.Parent:FindFirstChild("HumanoidRootPart")
                 if npcRoot then
                     npcRoot.CFrame = root.CFrame * CFrame.new(0, 0, -4.5)
@@ -1150,23 +1155,17 @@ RunService.Heartbeat:Connect(function()
         end
     end
 
-    -- Kill Aura (throttled to every 0.1s)
+    -- Kill Aura (NPCs only)
     if Toggles.KillAura and root and (now - lastKillAura) >= 0.1 then
         lastKillAura = now
-        local tool = char:FindFirstChildOfClass("Tool")
         for _, obj in ipairs(workspace:GetDescendants()) do
-            if obj:IsA("Humanoid") and obj.Parent ~= char and obj.Health > 0 then
+            if obj:IsA("Humanoid") and obj.Parent ~= char and obj.Health > 0 and isNPC(obj.Parent) then
                 local npcRoot = obj.Parent:FindFirstChild("HumanoidRootPart")
                 if npcRoot then
                     local dist = (root.Position - npcRoot.Position).Magnitude
                     if dist <= KillAuraDist then
-                        if tool then
-                            local activate = tool:FindFirstChild("Activate") or tool:FindFirstChildOfClass("LocalScript")
-                            pcall(function()
-                                tool:Activate()
-                            end)
-                        end
-                        -- Fallback: damage via humanoid directly
+                        local tool = char:FindFirstChildOfClass("Tool")
+                        if tool then pcall(function() tool:Activate() end) end
                         pcall(function() obj:TakeDamage(10) end)
                     end
                 end
@@ -1174,7 +1173,7 @@ RunService.Heartbeat:Connect(function()
         end
     end
 
-    -- Crosshair update
+    -- Crosshair
     if Toggles.Crosshair then
         if Toggles.CrosshairSpin then
             crosshairAngle = (crosshairAngle + spinSpeed) % 360
