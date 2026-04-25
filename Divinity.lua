@@ -32,7 +32,6 @@ local SUPPORTED_IDS = {
     [6462529301]  = true,
     [13559635034] = true,
 }
-
 local currentGameName = "Unknown"
 local isSupported     = false
 pcall(function()
@@ -69,7 +68,7 @@ local function checkKey()
 
     if not isSupported then
         local WCard = Instance.new("Frame", ScreenGui)
-        WCard.Size = UDim2.fromOffset(500, 200)
+        WCard.Size = UDim2.fromOffset(500,200)
         WCard.Position = UDim2.new(0.5,-250,0.5,-100)
         WCard.BackgroundColor3 = Color3.fromRGB(20,20,20)
         WCard.BorderSizePixel = 0
@@ -78,14 +77,12 @@ local function checkKey()
         local WS = Instance.new("UIStroke", WCard)
         WS.Color = Color3.fromRGB(200,70,50)
         WS.Thickness = 1.5
-
         local WAccent = Instance.new("Frame", WCard)
         WAccent.Size = UDim2.new(1,0,0,3)
         WAccent.BackgroundColor3 = Color3.fromRGB(220,70,50)
         WAccent.BorderSizePixel = 0
         WAccent.ZIndex = 4
         Instance.new("UICorner", WAccent).CornerRadius = UDim.new(0,10)
-
         local WTitle = Instance.new("TextLabel", WCard)
         WTitle.Size = UDim2.new(1,0,0,36)
         WTitle.Position = UDim2.fromOffset(0,12)
@@ -95,7 +92,6 @@ local function checkKey()
         WTitle.Font = Enum.Font.GothamBold
         WTitle.TextSize = 19
         WTitle.ZIndex = 4
-
         local WBody = Instance.new("TextLabel", WCard)
         WBody.Size = UDim2.new(1,-40,0,72)
         WBody.Position = UDim2.fromOffset(20,52)
@@ -107,7 +103,6 @@ local function checkKey()
         WBody.TextWrapped = true
         WBody.TextXAlignment = Enum.TextXAlignment.Left
         WBody.ZIndex = 4
-
         local WBtn = Instance.new("TextButton", WCard)
         WBtn.Size = UDim2.new(1,-40,0,36)
         WBtn.Position = UDim2.fromOffset(20,148)
@@ -119,11 +114,10 @@ local function checkKey()
         WBtn.BorderSizePixel = 0
         WBtn.ZIndex = 4
         Instance.new("UICorner", WBtn).CornerRadius = UDim.new(0,7)
-
         local dismissed = false
         WBtn.MouseButton1Click:Connect(function()
             dismissed = true
-            TweenService:Create(WCard, TweenInfo.new(0.2), { BackgroundTransparency = 1 }):Play()
+            TweenService:Create(WCard, TweenInfo.new(0.2), {BackgroundTransparency=1}):Play()
             task.wait(0.25)
             WCard:Destroy()
         end)
@@ -131,7 +125,7 @@ local function checkKey()
     end
 
     local Card = Instance.new("Frame", ScreenGui)
-    Card.Size = UDim2.fromOffset(460, 270)
+    Card.Size = UDim2.fromOffset(460,270)
     Card.Position = UDim2.new(0.5,-230,0.5,-135)
     Card.BackgroundColor3 = Color3.fromRGB(18,18,18)
     Card.BorderSizePixel = 0
@@ -141,21 +135,18 @@ local function checkKey()
     local CS = Instance.new("UIStroke", Card)
     CS.Color = Color3.fromRGB(50,50,50)
     CS.Thickness = 1
-
     local SideBar = Instance.new("Frame", Card)
     SideBar.Size = UDim2.new(0,3,1,0)
     SideBar.BackgroundColor3 = Color3.fromRGB(50,120,255)
     SideBar.BorderSizePixel = 0
     SideBar.ZIndex = 3
     Instance.new("UICorner", SideBar).CornerRadius = UDim.new(0,10)
-
     local Header = Instance.new("Frame", Card)
     Header.Size = UDim2.new(1,0,0,52)
     Header.BackgroundColor3 = Color3.fromRGB(24,24,24)
     Header.BorderSizePixel = 0
     Header.ZIndex = 3
     Instance.new("UICorner", Header).CornerRadius = UDim.new(0,10)
-
     local HTitle = Instance.new("TextLabel", Header)
     HTitle.Size = UDim2.new(1,-20,0,28)
     HTitle.Position = UDim2.fromOffset(14,6)
@@ -166,7 +157,6 @@ local function checkKey()
     HTitle.TextSize = 16
     HTitle.TextXAlignment = Enum.TextXAlignment.Left
     HTitle.ZIndex = 4
-
     local HSub = Instance.new("TextLabel", Header)
     HSub.Size = UDim2.new(1,-20,0,18)
     HSub.Position = UDim2.fromOffset(14,28)
@@ -177,7 +167,6 @@ local function checkKey()
     HSub.TextSize = 12
     HSub.TextXAlignment = Enum.TextXAlignment.Left
     HSub.ZIndex = 4
-
     local IL = Instance.new("TextLabel", Card)
     IL.Size = UDim2.new(1,-40,0,16)
     IL.Position = UDim2.fromOffset(20,62)
@@ -188,7 +177,6 @@ local function checkKey()
     IL.Font = Enum.Font.GothamBold
     IL.TextSize = 11
     IL.ZIndex = 3
-
     local IBG = Instance.new("Frame", Card)
     IBG.Size = UDim2.new(1,-40,0,42)
     IBG.Position = UDim2.fromOffset(20,82)
@@ -199,7 +187,6 @@ local function checkKey()
     local IS = Instance.new("UIStroke", IBG)
     IS.Color = Color3.fromRGB(48,48,48)
     IS.Thickness = 1
-
     local IBox = Instance.new("TextBox", IBG)
     IBox.Size = UDim2.new(1,-18,1,0)
     IBox.Position = UDim2.fromOffset(9,0)
@@ -211,14 +198,12 @@ local function checkKey()
     IBox.TextSize = 13
     IBox.ClearTextOnFocus = false
     IBox.ZIndex = 4
-
     local Divider = Instance.new("Frame", Card)
     Divider.Size = UDim2.new(1,-40,0,1)
     Divider.Position = UDim2.fromOffset(20,134)
     Divider.BackgroundColor3 = Color3.fromRGB(40,40,40)
     Divider.BorderSizePixel = 0
     Divider.ZIndex = 3
-
     local SL = Instance.new("TextLabel", Card)
     SL.Size = UDim2.new(1,-40,0,18)
     SL.Position = UDim2.fromOffset(20,140)
@@ -229,7 +214,6 @@ local function checkKey()
     SL.Font = Enum.Font.Gotham
     SL.TextSize = 12
     SL.ZIndex = 3
-
     local SBtn = Instance.new("TextButton", Card)
     SBtn.Size = UDim2.new(1,-40,0,40)
     SBtn.Position = UDim2.fromOffset(20,162)
@@ -242,7 +226,6 @@ local function checkKey()
     SBtn.AutoButtonColor = false
     SBtn.ZIndex = 3
     Instance.new("UICorner", SBtn).CornerRadius = UDim.new(0,7)
-
     local DiscordBtn = Instance.new("TextButton", Card)
     DiscordBtn.Size = UDim2.new(1,-40,0,26)
     DiscordBtn.Position = UDim2.fromOffset(20,212)
@@ -257,21 +240,19 @@ local function checkKey()
     DiscordBtn.MouseButton1Click:Connect(function()
         if setclipboard then setclipboard("discord.gg/wAAHbUg46x") end
     end)
-
     SBtn.MouseEnter:Connect(function()
-        TweenService:Create(SBtn, TweenInfo.new(0.12), { BackgroundColor3 = Color3.fromRGB(70,140,255) }):Play()
+        TweenService:Create(SBtn, TweenInfo.new(0.12), {BackgroundColor3=Color3.fromRGB(70,140,255)}):Play()
     end)
     SBtn.MouseLeave:Connect(function()
-        TweenService:Create(SBtn, TweenInfo.new(0.12), { BackgroundColor3 = Color3.fromRGB(50,120,255) }):Play()
+        TweenService:Create(SBtn, TweenInfo.new(0.12), {BackgroundColor3=Color3.fromRGB(50,120,255)}):Play()
     end)
     IBox.Focused:Connect(function()
-        TweenService:Create(IS, TweenInfo.new(0.15), { Color = Color3.fromRGB(50,120,255) }):Play()
+        TweenService:Create(IS, TweenInfo.new(0.15), {Color=Color3.fromRGB(50,120,255)}):Play()
     end)
     IBox.FocusLost:Connect(function()
-        TweenService:Create(IS, TweenInfo.new(0.15), { Color = Color3.fromRGB(48,48,48) }):Play()
+        TweenService:Create(IS, TweenInfo.new(0.15), {Color=Color3.fromRGB(48,48,48)}):Play()
     end)
-
-    TweenService:Create(Card, TweenInfo.new(0.25), { BackgroundTransparency = 0 }):Play()
+    TweenService:Create(Card, TweenInfo.new(0.25), {BackgroundTransparency=0}):Play()
 
     local validated = false
     SBtn.MouseButton1Click:Connect(function()
@@ -280,21 +261,20 @@ local function checkKey()
             validated = true
             SL.TextColor3 = Color3.fromRGB(80,255,120)
             SL.Text = "Key accepted! Loading Divinity..."
-            TweenService:Create(SBtn, TweenInfo.new(0.15), { BackgroundColor3 = Color3.fromRGB(40,180,80) }):Play()
+            TweenService:Create(SBtn, TweenInfo.new(0.15), {BackgroundColor3=Color3.fromRGB(40,180,80)}):Play()
             SBtn.Text = "Unlocked!"
             task.wait(1.1)
-            TweenService:Create(Card, TweenInfo.new(0.22), { BackgroundTransparency = 1 }):Play()
+            TweenService:Create(Card, TweenInfo.new(0.22), {BackgroundTransparency=1}):Play()
             task.wait(0.25)
             ScreenGui:Destroy()
         else
             SL.TextColor3 = Color3.fromRGB(255,80,80)
             SL.Text = "Invalid key. Get it from the Discord."
-            TweenService:Create(IBG, TweenInfo.new(0.08), { BackgroundColor3 = Color3.fromRGB(50,20,20) }):Play()
+            TweenService:Create(IBG, TweenInfo.new(0.08), {BackgroundColor3=Color3.fromRGB(50,20,20)}):Play()
             task.wait(0.5)
-            TweenService:Create(IBG, TweenInfo.new(0.15), { BackgroundColor3 = Color3.fromRGB(28,28,28) }):Play()
+            TweenService:Create(IBG, TweenInfo.new(0.15), {BackgroundColor3=Color3.fromRGB(28,28,28)}):Play()
         end
     end)
-
     while not validated and ScreenGui.Parent do task.wait(0.08) end
     if not validated then error("[Divinity] Key not validated.") end
     return true
@@ -309,6 +289,11 @@ local Fluent           = loadstring(game:HttpGet("https://github.com/dawid-scrip
 local SaveManager      = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
+-- // Workspace folder setup
+if isfolder and not isfolder("Divinity") then makefolder("Divinity") end
+if isfolder and not isfolder("Divinity/Music") then makefolder("Divinity/Music") end
+if isfolder and not isfolder("Divinity/configs") then makefolder("Divinity/configs") end
+
 local UIBlur = Instance.new("BlurEffect")
 UIBlur.Size = 0
 UIBlur.Parent = Lighting
@@ -316,8 +301,7 @@ UIBlur.Parent = Lighting
 local executor = "Unknown"
 pcall(function()
     if identifyexecutor then executor = identifyexecutor()
-    elseif getexecutorname then executor = getexecutorname()
-    end
+    elseif getexecutorname then executor = getexecutorname() end
 end)
 
 local FontMap = {
@@ -331,34 +315,102 @@ local FontMap = {
     ["Fantasy"]    = Enum.Font.Fantasy,
 }
 
+-- // State
 local Toggles = {
-    GodMode       = false,
-    BringNPCs     = false,
-    InfiniteJump  = false,
-    Speed         = false,
-    FOV           = false,
-    CamDist       = false,
-    NPC_ESP       = false,
-    ESPBar        = false,
-    ESPHighlight  = false,
-    MuteAll       = false,
-    DestroyOnExec = false,
+    GodMode         = false,
+    BringNPCs       = false,
+    InfiniteJump    = false,
+    Speed           = false,
+    FOV             = false,
+    CamDist         = false,
+    NPC_ESP         = false,
+    ESPBar          = false,
+    ESPHighlight    = false,
+    KillAura        = false,
+    MuteAll         = false,
+    DestroyOnExec   = false,
+    Crosshair       = false,
+    CrosshairSpin   = false,
+    CrosshairCursor = false,
 }
-local SpeedValue     = 16
-local FOVValue       = 90
-local CamDistValue   = 500
-local ESPNameColor   = Color3.fromRGB(255, 80, 80)
-local ESPHPColor     = Color3.fromRGB(80, 255, 80)
-local ESPHLFill      = Color3.fromRGB(255, 80, 80)
-local ESPHLOutline   = Color3.fromRGB(255, 255, 255)
-local ESPHLFillTrans = 0.6
-local ESPFont        = Enum.Font.GothamBold
-local ESPBarSide     = "Left"
-local scriptInput    = ""
-local lastBring      = 0
+
+local SpeedValue      = 16
+local FOVValue        = 90
+local CamDistValue    = 500
+local ESPNameColor    = Color3.fromRGB(255, 80, 80)
+local ESPHPColor      = Color3.fromRGB(80, 255, 80)
+local ESPHLFill       = Color3.fromRGB(255, 80, 80)
+local ESPHLOutline    = Color3.fromRGB(255, 255, 255)
+local ESPHLFillTrans  = 0.6
+local ESPFont         = Enum.Font.GothamBold
+local ESPBarSide      = "Left"
+local KillAuraDist    = 15
+local scriptInput     = ""
+local lastBring       = 0
+local lastKillAura    = 0
+local crosshairAngle  = 0
+local crosshairSize   = 20
+local crosshairThick  = 2
+local crosshairGap    = 5
+local crosshairColor  = Color3.fromRGB(255, 255, 255)
+local crosshairAlpha  = 1
+local spinSpeed       = 2
 
 -- ============================================================
--- // ESP
+-- // CROSSHAIR (Drawing API)
+-- ============================================================
+local chLines = {}
+for i = 1, 4 do
+    local l = Drawing.new("Line")
+    l.Color = crosshairColor
+    l.Thickness = crosshairThick
+    l.Transparency = crosshairAlpha
+    l.Visible = false
+    chLines[i] = l
+end
+local chDot = Drawing.new("Circle")
+chDot.Color = crosshairColor
+chDot.Thickness = 1
+chDot.Filled = true
+chDot.Radius = 2
+chDot.Transparency = crosshairAlpha
+chDot.Visible = false
+
+local function updateCrosshair()
+    local cx, cy
+    if Toggles.CrosshairCursor then
+        local mp = UserInputService:GetMouseLocation()
+        cx, cy = mp.X, mp.Y
+    else
+        cx = workspace.CurrentCamera.ViewportSize.X / 2
+        cy = workspace.CurrentCamera.ViewportSize.Y / 2
+    end
+
+    local angle = math.rad(crosshairAngle)
+    local dirs = {
+        Vector2.new(math.cos(angle), math.sin(angle)),
+        Vector2.new(-math.cos(angle), -math.sin(angle)),
+        Vector2.new(-math.sin(angle), math.cos(angle)),
+        Vector2.new(math.sin(angle), -math.cos(angle)),
+    }
+
+    local center = Vector2.new(cx, cy)
+    for i, dir in ipairs(dirs) do
+        chLines[i].From = center + dir * crosshairGap
+        chLines[i].To   = center + dir * (crosshairGap + crosshairSize)
+        chLines[i].Color = crosshairColor
+        chLines[i].Thickness = crosshairThick
+        chLines[i].Transparency = crosshairAlpha
+        chLines[i].Visible = Toggles.Crosshair
+    end
+    chDot.Position = center
+    chDot.Color = crosshairColor
+    chDot.Transparency = crosshairAlpha
+    chDot.Visible = Toggles.Crosshair
+end
+
+-- ============================================================
+-- // ESP HELPERS
 -- ============================================================
 local function applyBarFill(fill, hp, maxHp)
     local pct = math.clamp(hp / math.max(maxHp, 1), 0, 1)
@@ -372,12 +424,10 @@ local function addESP(npcModel, humanoid)
     if not npcModel then return end
     if npcModel:FindFirstChild("_DivinityESP") then return end
     if npcModel == LocalPlayer.Character then return end
-
     local anchor = npcModel:FindFirstChild("HumanoidRootPart")
                 or npcModel:FindFirstChildOfClass("BasePart")
     if not anchor then return end
 
-    -- Highlight cham
     local hl = Instance.new("Highlight")
     hl.Name = "_DivinityHL"
     hl.FillColor = ESPHLFill
@@ -388,7 +438,6 @@ local function addESP(npcModel, humanoid)
     hl.Adornee = npcModel
     hl.Parent = npcModel
 
-    -- Name + HP text billboard (above head only, NO health bar here)
     local bb = Instance.new("BillboardGui")
     bb.Name = "_DivinityESP"
     bb.Size = UDim2.new(0, 130, 0, 36)
@@ -419,7 +468,6 @@ local function addESP(npcModel, humanoid)
     hpLabel.TextScaled = true
     hpLabel.Text = math.floor(humanoid.Health) .. "/" .. math.floor(humanoid.MaxHealth)
 
-    -- Side vertical health bar (next to body, NOT above head)
     local sideOffset = ESPBarSide == "Left" and -1.3 or 1.3
     local barBB = Instance.new("BillboardGui")
     barBB.Name = "_DivinityESPBar"
@@ -429,40 +477,31 @@ local function addESP(npcModel, humanoid)
     barBB.Enabled = Toggles.ESPBar
     barBB.Parent = anchor
 
-    -- Bar background
     local barBG = Instance.new("Frame", barBB)
     barBG.Name = "_ESPBarBG"
     barBG.Size = UDim2.new(1, 0, 1, 0)
-    barBG.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+    barBG.BackgroundColor3 = Color3.fromRGB(15,15,15)
     barBG.BorderSizePixel = 0
     barBG.ClipsDescendants = true
-    local bgCorner = Instance.new("UICorner", barBG)
-    bgCorner.CornerRadius = UDim.new(1, 0)
-
-    -- Thin outline stroke for the bar
+    Instance.new("UICorner", barBG).CornerRadius = UDim.new(1, 0)
     local barStroke = Instance.new("UIStroke", barBG)
     barStroke.Color = Color3.fromRGB(0,0,0)
     barStroke.Thickness = 1
     barStroke.Transparency = 0.5
 
-    -- Fill (anchored bottom, grows upward)
     local barFill = Instance.new("Frame", barBG)
     barFill.Name = "_ESPBarFill"
     barFill.AnchorPoint = Vector2.new(0, 1)
-    barFill.Position = UDim2.new(0, 0, 1, 0)
-    barFill.Size = UDim2.new(1, 0, 1, 0)
+    barFill.Position = UDim2.new(0,0,1,0)
+    barFill.Size = UDim2.new(1,0,1,0)
     barFill.BorderSizePixel = 0
-    local fillCorner = Instance.new("UICorner", barFill)
-    fillCorner.CornerRadius = UDim.new(1, 0)
-
-    -- Shine effect on fill
+    Instance.new("UICorner", barFill).CornerRadius = UDim.new(1, 0)
     local shine = Instance.new("Frame", barFill)
-    shine.Size = UDim2.new(0.5, 0, 1, 0)
+    shine.Size = UDim2.new(0.5,0,1,0)
     shine.BackgroundColor3 = Color3.fromRGB(255,255,255)
     shine.BackgroundTransparency = 0.85
     shine.BorderSizePixel = 0
     Instance.new("UICorner", shine).CornerRadius = UDim.new(1, 0)
-
     applyBarFill(barFill, humanoid.Health, humanoid.MaxHealth)
 
     humanoid:GetPropertyChangedSignal("Health"):Connect(function()
@@ -471,10 +510,8 @@ local function addESP(npcModel, humanoid)
             pcall(function() bb:Destroy() barBB:Destroy() hl:Destroy() end)
             return
         end
-        local hp = humanoid.Health
-        local mhp = humanoid.MaxHealth
-        hpLabel.Text = math.floor(hp) .. "/" .. math.floor(mhp)
-        applyBarFill(barFill, hp, mhp)
+        hpLabel.Text = math.floor(humanoid.Health) .. "/" .. math.floor(humanoid.MaxHealth)
+        applyBarFill(barFill, humanoid.Health, humanoid.MaxHealth)
     end)
 
     humanoid.Died:Connect(function()
@@ -502,7 +539,7 @@ local Window = Fluent:CreateWindow({
     Title       = "Divinity  v15.12.0",
     SubTitle    = "By Divine",
     TabWidth    = 160,
-    Size        = UDim2.fromOffset(660, 560),
+    Size        = UDim2.fromOffset(680, 580),
     Acrylic     = true,
     Theme       = "Dark",
     MinimizeKey = Enum.KeyCode.LeftControl,
@@ -516,12 +553,17 @@ pcall(function()
     end)
 end)
 
+-- ============================================================
+-- // TABS
+-- ============================================================
 local Tabs = {
-    Home     = Window:AddTab({ Title = "Home",            Icon = "home"     }),
-    Combat   = Window:AddTab({ Title = "Combat",          Icon = "sword"    }),
-    Visuals  = Window:AddTab({ Title = "Visuals",         Icon = "eye"      }),
-    Scripts  = Window:AddTab({ Title = "Script Executor", Icon = "terminal" }),
-    Settings = Window:AddTab({ Title = "Settings",        Icon = "settings" }),
+    Home     = Window:AddTab({ Title = "Home",            Icon = "home"        }),
+    Combat   = Window:AddTab({ Title = "Combat",          Icon = "sword"       }),
+    Visuals  = Window:AddTab({ Title = "Visuals",         Icon = "eye"         }),
+    Scripts  = Window:AddTab({ Title = "Script Executor", Icon = "terminal"    }),
+    Music    = Window:AddTab({ Title = "Music",           Icon = "music"       }),
+    Patches  = Window:AddTab({ Title = "Patch Notes",     Icon = "file-text"   }),
+    Settings = Window:AddTab({ Title = "Settings",        Icon = "settings"    }),
 }
 
 -- ============================================================
@@ -531,12 +573,10 @@ Tabs.Home:AddParagraph({
     Title   = "Welcome",
     Content = "Hello dear owner, I'm sorry that no one wants to use your script,\nits okay though cause you have yourself BAAAAAHAHAHAHAHAH-",
 })
-
 Tabs.Home:AddParagraph({
     Title   = "Supported Executors",
-    Content = "Every Executor Except level 3's or 2's",
+    Content = "Ronix, Solara, Wave, Zorara, Celery, Fluxus",
 })
-
 Tabs.Home:AddButton({
     Title       = "Copy Hangout Discord",
     Description = "Copies the Discord invite to clipboard",
@@ -565,6 +605,66 @@ local BringToggle = Tabs.Combat:AddToggle("BringNPCs", {
 })
 BringToggle:OnChanged(function(v) Toggles.BringNPCs = v end)
 
+local KillAuraToggle = Tabs.Combat:AddToggle("KillAura", {
+    Title = "Kill Aura", Description = "Automatically attacks all NPCs within range", Default = false,
+})
+KillAuraToggle:OnChanged(function(v) Toggles.KillAura = v end)
+
+local KillAuraSlider = Tabs.Combat:AddSlider("KillAuraDist", {
+    Title = "Kill Aura Distance", Description = "Stud radius to detect NPCs",
+    Default = 15, Min = 5, Max = 100, Rounding = 0,
+})
+KillAuraSlider:OnChanged(function(v) KillAuraDist = v end)
+
+Tabs.Combat:AddSection("Modded Weapons")
+
+Tabs.Combat:AddButton({
+    Title       = "Mod All Weapons",
+    Description = "Sets all weapon cooldowns and rates to 0 (pick up weapons first)",
+    Callback    = function()
+        local applied = 0
+        local function findTool(name)
+            local p = game.Players.LocalPlayer
+            return p.Backpack:FindFirstChild(name)
+                or (p.Character and p.Character:FindFirstChild(name))
+                or workspace:FindFirstChild(name, true)
+        end
+        local function modTool(name, attrs)
+            pcall(function()
+                local tool = findTool(name)
+                if tool then
+                    for k, v in pairs(attrs) do tool:SetAttribute(k, v) end
+                    applied = applied + 1
+                end
+            end)
+        end
+        modTool("Sword",             { LungeRate=0, Swingrate=0, OffhandSwingRate=0 })
+        modTool("Firebrand",         { LungeRate=0, Swingrate=0, OffhandSwingRate=0, Windup=0 })
+        modTool("Katana",            { LungeRate=0, Swingrate=0, OffhandSwingRate=0 })
+        modTool("Slingshot",         { Capacity=10000, ChargeRate=0, Firerate=0, Spread=0, ProjectileSpeed=2250 })
+        modTool("Flamethrower",      { Cooldown=0 })
+        modTool("Paintball Gun",     { Firerate=0, ProjectileSpeed=2250 })
+        modTool("BB Gun",            { Firerate=0, MinShots=2, MaxShots=99999 })
+        modTool("Freeze Ray",        { Firerate=0, ProjectileSpeed=2250, ChargeTime=0 })
+        modTool("Ninja Stars",       { ThrowRate=0, Capacity=10000000, ChargeRate=0 })
+        modTool("Bazooka",           { ReloadTick=0, Capacity=100, PassiveReloadTick=0 })
+        modTool("Subspace Tripmine", { Cooldown=0 })
+        modTool("Explosive Pinata",  { Cooldown=0 })
+        pcall(function()
+            local char = LocalPlayer.Character
+            if char then
+                char:SetAttribute("DashRegenTime", 0.05)
+                char:SetAttribute("DashRegenFury", 0.05)
+            end
+        end)
+        if applied > 0 then
+            Fluent:Notify({ Title = "Modded Weapons", Content = applied .. " weapons modded!", Duration = 4 })
+        else
+            Fluent:Notify({ Title = "Modded Weapons", Content = "Pick up weapons first then try again.", Duration = 5 })
+        end
+    end,
+})
+
 Tabs.Combat:AddSection("Movement and Camera")
 
 local IJToggle = Tabs.Combat:AddToggle("InfJump", {
@@ -573,7 +673,7 @@ local IJToggle = Tabs.Combat:AddToggle("InfJump", {
 IJToggle:OnChanged(function(v) Toggles.InfiniteJump = v end)
 
 local SpeedToggle = Tabs.Combat:AddToggle("SpeedToggle", {
-    Title = "Speed Multiplier", Description = "Toggle custom walk speed on/off", Default = false,
+    Title = "Speed Multiplier", Description = "Toggle custom walk speed", Default = false,
 })
 SpeedToggle:OnChanged(function(v)
     Toggles.Speed = v
@@ -583,7 +683,6 @@ SpeedToggle:OnChanged(function(v)
         if hum then hum.WalkSpeed = 16 end
     end
 end)
-
 local SpeedSlider = Tabs.Combat:AddSlider("SpeedSlider", {
     Title = "Speed Value", Description = "16 to 700 studs per second",
     Default = 16, Min = 16, Max = 700, Rounding = 0,
@@ -591,7 +690,7 @@ local SpeedSlider = Tabs.Combat:AddSlider("SpeedSlider", {
 SpeedSlider:OnChanged(function(v) SpeedValue = v end)
 
 local FOVToggle2 = Tabs.Combat:AddToggle("FOVToggle", {
-    Title = "FOV Extender", Description = "Toggle custom Field of View on/off", Default = false,
+    Title = "FOV Extender", Description = "Toggle custom Field of View", Default = false,
 })
 FOVToggle2:OnChanged(function(v)
     Toggles.FOV = v
@@ -600,7 +699,6 @@ FOVToggle2:OnChanged(function(v)
         if cam then cam.FieldOfView = 70 end
     end
 end)
-
 local FOVSlider = Tabs.Combat:AddSlider("FOVSlider", {
     Title = "Camera FOV", Description = "90 to 170",
     Default = 90, Min = 90, Max = 170, Rounding = 0,
@@ -608,26 +706,19 @@ local FOVSlider = Tabs.Combat:AddSlider("FOVSlider", {
 FOVSlider:OnChanged(function(v) FOVValue = v end)
 
 local CamToggle = Tabs.Combat:AddToggle("CamDist", {
-    Title = "Camera Distance Bypass", Description = "Lets you zoom the camera much further out", Default = false,
+    Title = "Camera Distance Bypass", Description = "Lets you zoom much further out", Default = false,
 })
 CamToggle:OnChanged(function(v)
     Toggles.CamDist = v
-    if v then
-        LocalPlayer.CameraMaxZoomDistance = CamDistValue
-    else
-        LocalPlayer.CameraMaxZoomDistance = 400
-    end
+    LocalPlayer.CameraMaxZoomDistance = v and CamDistValue or 400
 end)
-
 local CamSlider = Tabs.Combat:AddSlider("CamDistSlider", {
     Title = "Max Zoom Distance", Description = "How far the camera can zoom out",
     Default = 500, Min = 50, Max = 3000, Rounding = 0,
 })
 CamSlider:OnChanged(function(v)
     CamDistValue = v
-    if Toggles.CamDist then
-        LocalPlayer.CameraMaxZoomDistance = v
-    end
+    if Toggles.CamDist then LocalPlayer.CameraMaxZoomDistance = v end
 end)
 
 -- ============================================================
@@ -640,8 +731,7 @@ local ESPToggle = Tabs.Visuals:AddToggle("ESPToggle", {
 })
 ESPToggle:OnChanged(function(v)
     Toggles.NPC_ESP = v
-    if not v then
-        removeAllESP()
+    if not v then removeAllESP()
     else
         for _, obj in ipairs(workspace:GetDescendants()) do
             if obj:IsA("Humanoid") and obj.Parent ~= LocalPlayer.Character and obj.Health > 0 then
@@ -659,30 +749,20 @@ local ESPFontDrop = Tabs.Visuals:AddDropdown("ESPFontDrop", {
 ESPFontDrop:OnChanged(function(v)
     ESPFont = FontMap[v] or Enum.Font.GothamBold
     refreshESP(function(obj)
-        if obj.Name == "_ESPName" or obj.Name == "_ESPHp" then
-            obj.Font = ESPFont
-        end
+        if obj.Name == "_ESPName" or obj.Name == "_ESPHp" then obj.Font = ESPFont end
     end)
 end)
 
-local NameCP = Tabs.Visuals:AddColorpicker("NameCP", {
-    Title = "Name Color", Default = Color3.fromRGB(255,80,80),
-})
+local NameCP = Tabs.Visuals:AddColorpicker("NameCP", { Title = "Name Color", Default = Color3.fromRGB(255,80,80) })
 NameCP:OnChanged(function(v)
     ESPNameColor = v
-    refreshESP(function(obj)
-        if obj.Name == "_ESPName" then obj.TextColor3 = v end
-    end)
+    refreshESP(function(obj) if obj.Name == "_ESPName" then obj.TextColor3 = v end end)
 end)
 
-local HPCP = Tabs.Visuals:AddColorpicker("HPCP", {
-    Title = "HP Text Color", Default = Color3.fromRGB(80,255,80),
-})
+local HPCP = Tabs.Visuals:AddColorpicker("HPCP", { Title = "HP Text Color", Default = Color3.fromRGB(80,255,80) })
 HPCP:OnChanged(function(v)
     ESPHPColor = v
-    refreshESP(function(obj)
-        if obj.Name == "_ESPHp" then obj.TextColor3 = v end
-    end)
+    refreshESP(function(obj) if obj.Name == "_ESPHp" then obj.TextColor3 = v end end)
 end)
 
 Tabs.Visuals:AddSection("Side Health Bar")
@@ -692,55 +772,40 @@ local BarToggle = Tabs.Visuals:AddToggle("ESPBar", {
 })
 BarToggle:OnChanged(function(v)
     Toggles.ESPBar = v
-    refreshESP(function(obj)
-        if obj.Name == "_DivinityESPBar" then obj.Enabled = v end
-    end)
+    refreshESP(function(obj) if obj.Name == "_DivinityESPBar" then obj.Enabled = v end end)
 end)
 
 local BarSideDrop = Tabs.Visuals:AddDropdown("BarSideDrop", {
-    Title = "Bar Side", Description = "Which side of the character the bar appears on",
-    Values = {"Left","Right"}, Default = "Left",
+    Title = "Bar Side", Values = {"Left","Right"}, Default = "Left",
 })
 BarSideDrop:OnChanged(function(v)
     ESPBarSide = v
     local offset = v == "Left" and -1.3 or 1.3
     refreshESP(function(obj)
-        if obj.Name == "_DivinityESPBar" then
-            obj.StudsOffset = Vector3.new(offset, 0, 0)
-        end
+        if obj.Name == "_DivinityESPBar" then obj.StudsOffset = Vector3.new(offset,0,0) end
     end)
 end)
 
 Tabs.Visuals:AddSection("Highlight Chams")
 
 local HLToggle = Tabs.Visuals:AddToggle("HLToggle", {
-    Title = "Enable Highlight Chams", Description = "Colored body highlight visible through walls", Default = false,
+    Title = "Enable Highlight Chams", Description = "Body highlight visible through walls", Default = false,
 })
 HLToggle:OnChanged(function(v)
     Toggles.ESPHighlight = v
-    refreshESP(function(obj)
-        if obj.Name == "_DivinityHL" then obj.Enabled = v end
-    end)
+    refreshESP(function(obj) if obj.Name == "_DivinityHL" then obj.Enabled = v end end)
 end)
 
-local HLFillCP = Tabs.Visuals:AddColorpicker("HLFillCP", {
-    Title = "Highlight Fill Color", Default = Color3.fromRGB(255,80,80),
-})
+local HLFillCP = Tabs.Visuals:AddColorpicker("HLFillCP", { Title = "Fill Color", Default = Color3.fromRGB(255,80,80) })
 HLFillCP:OnChanged(function(v)
     ESPHLFill = v
-    refreshESP(function(obj)
-        if obj.Name == "_DivinityHL" then obj.FillColor = v end
-    end)
+    refreshESP(function(obj) if obj.Name == "_DivinityHL" then obj.FillColor = v end end)
 end)
 
-local HLOutlineCP = Tabs.Visuals:AddColorpicker("HLOutlineCP", {
-    Title = "Highlight Outline Color", Default = Color3.fromRGB(255,255,255),
-})
+local HLOutlineCP = Tabs.Visuals:AddColorpicker("HLOutlineCP", { Title = "Outline Color", Default = Color3.fromRGB(255,255,255) })
 HLOutlineCP:OnChanged(function(v)
     ESPHLOutline = v
-    refreshESP(function(obj)
-        if obj.Name == "_DivinityHL" then obj.OutlineColor = v end
-    end)
+    refreshESP(function(obj) if obj.Name == "_DivinityHL" then obj.OutlineColor = v end end)
 end)
 
 local HLTransSlider = Tabs.Visuals:AddSlider("HLTransSlider", {
@@ -749,10 +814,52 @@ local HLTransSlider = Tabs.Visuals:AddSlider("HLTransSlider", {
 })
 HLTransSlider:OnChanged(function(v)
     ESPHLFillTrans = v / 100
-    refreshESP(function(obj)
-        if obj.Name == "_DivinityHL" then obj.FillTransparency = ESPHLFillTrans end
-    end)
+    refreshESP(function(obj) if obj.Name == "_DivinityHL" then obj.FillTransparency = ESPHLFillTrans end end)
 end)
+
+Tabs.Visuals:AddSection("Custom Crosshair")
+
+local CHToggle = Tabs.Visuals:AddToggle("CHToggle", {
+    Title = "Enable Crosshair", Description = "Draws a custom crosshair on screen", Default = false,
+})
+CHToggle:OnChanged(function(v) Toggles.Crosshair = v end)
+
+local CHCursorToggle = Tabs.Visuals:AddToggle("CHCursor", {
+    Title = "Follow Cursor", Description = "Crosshair follows your mouse instead of screen center", Default = false,
+})
+CHCursorToggle:OnChanged(function(v) Toggles.CrosshairCursor = v end)
+
+local CHSpinToggle = Tabs.Visuals:AddToggle("CHSpin", {
+    Title = "Spin Crosshair", Description = "Makes the crosshair rotate continuously", Default = false,
+})
+CHSpinToggle:OnChanged(function(v) Toggles.CrosshairSpin = v end)
+
+local CHSpinSlider = Tabs.Visuals:AddSlider("CHSpinSpeed", {
+    Title = "Spin Speed", Description = "How fast the crosshair spins",
+    Default = 2, Min = 1, Max = 20, Rounding = 0,
+})
+CHSpinSlider:OnChanged(function(v) spinSpeed = v end)
+
+local CHSizeSlider = Tabs.Visuals:AddSlider("CHSize", {
+    Title = "Crosshair Size", Description = "Length of each crosshair line",
+    Default = 20, Min = 5, Max = 60, Rounding = 0,
+})
+CHSizeSlider:OnChanged(function(v) crosshairSize = v end)
+
+local CHGapSlider = Tabs.Visuals:AddSlider("CHGap", {
+    Title = "Crosshair Gap", Description = "Gap between center and lines",
+    Default = 5, Min = 0, Max = 30, Rounding = 0,
+})
+CHGapSlider:OnChanged(function(v) crosshairGap = v end)
+
+local CHThickSlider = Tabs.Visuals:AddSlider("CHThick", {
+    Title = "Line Thickness", Description = "Thickness of each crosshair line",
+    Default = 2, Min = 1, Max = 8, Rounding = 0,
+})
+CHThickSlider:OnChanged(function(v) crosshairThick = v end)
+
+local CHCP = Tabs.Visuals:AddColorpicker("CHCP", { Title = "Crosshair Color", Default = Color3.fromRGB(255,255,255) })
+CHCP:OnChanged(function(v) crosshairColor = v end)
 
 -- ============================================================
 -- // SCRIPT EXECUTOR
@@ -765,14 +872,12 @@ local DestToggle = Tabs.Scripts:AddToggle("DestroyUI", {
 DestToggle:OnChanged(function(v) Toggles.DestroyOnExec = v end)
 
 Tabs.Scripts:AddSection("Custom Script")
-
 Tabs.Scripts:AddInput("ScriptBox", {
     Title = "Script", Description = "Paste any Lua or loadstring here",
     Default = "", Placeholder = "loadstring(game:HttpGet(''))()  or  print('hello')",
     Numeric = false, Finished = false,
     Callback = function(v) scriptInput = v end,
 })
-
 Tabs.Scripts:AddButton({
     Title = "Execute Script", Description = "Runs whatever is in the box above",
     Callback = function()
@@ -782,8 +887,7 @@ Tabs.Scripts:AddButton({
         end
         if Toggles.DestroyOnExec then pcall(function() Window:Destroy() end) UIBlur:Destroy() end
         local fn, err = loadstring(scriptInput)
-        if fn then
-            pcall(fn)
+        if fn then pcall(fn)
             Fluent:Notify({ Title = "Executor", Content = "Script executed.", Duration = 3 })
         else
             Fluent:Notify({ Title = "Executor Error", Content = tostring(err), Duration = 6 })
@@ -792,7 +896,6 @@ Tabs.Scripts:AddButton({
 })
 
 Tabs.Scripts:AddSection("Presets")
-
 Tabs.Scripts:AddButton({
     Title = "Execute CI Marik Script", Description = "Runs the official Combat Initiation Marik script",
     Callback = function()
@@ -803,7 +906,6 @@ Tabs.Scripts:AddButton({
         Fluent:Notify({ Title = "CI Marik Script", Content = "Script executed!", Duration = 4 })
     end,
 })
-
 Tabs.Scripts:AddButton({
     Title = "Execute Infinite Yield", Description = "Runs EdgeIY Infinite Yield admin script",
     Callback = function()
@@ -816,25 +918,172 @@ Tabs.Scripts:AddButton({
 })
 
 -- ============================================================
+-- // MUSIC TAB
+-- ============================================================
+Tabs.Music:AddParagraph({
+    Title   = "How to use Music",
+    Content = "Place .mp3 or .ogg files inside your executor's\nDivinity/Music folder, then hit Refresh to load them.\nOnly Roblox sound IDs work in-game (paste as rbxassetid://ID).",
+})
+
+local musicList = {"(empty — add files to Divinity/Music)"}
+local currentSound = nil
+
+local musicDropdown = Tabs.Music:AddDropdown("MusicDrop", {
+    Title = "Select Track",
+    Values = musicList,
+    Default = musicList[1],
+})
+
+Tabs.Music:AddButton({
+    Title = "Refresh Music List", Description = "Reloads files from Divinity/Music folder",
+    Callback = function()
+        if listfiles then
+            local files = listfiles("Divinity/Music")
+            if #files > 0 then
+                local names = {}
+                for _, f in ipairs(files) do
+                    local name = f:match("([^/\\]+)$") or f
+                    table.insert(names, name)
+                end
+                musicDropdown:SetValues(names)
+                musicDropdown:SetValue(names[1])
+                Fluent:Notify({ Title = "Music", Content = #names .. " track(s) found.", Duration = 3 })
+            else
+                Fluent:Notify({ Title = "Music", Content = "No files found in Divinity/Music.", Duration = 3 })
+            end
+        else
+            Fluent:Notify({ Title = "Music", Content = "Executor does not support listfiles.", Duration = 3 })
+        end
+    end,
+})
+
+local musicIDInput = ""
+Tabs.Music:AddInput("MusicID", {
+    Title = "Roblox Sound ID",
+    Description = "Paste a Roblox asset ID to play music in-game",
+    Default = "", Placeholder = "rbxassetid://1234567890",
+    Numeric = false, Finished = false,
+    Callback = function(v) musicIDInput = v end,
+})
+
+Tabs.Music:AddButton({
+    Title = "Play", Description = "Plays the Roblox sound ID entered above",
+    Callback = function()
+        if musicIDInput == "" then
+            Fluent:Notify({ Title = "Music", Content = "Enter a sound ID first.", Duration = 3 })
+            return
+        end
+        if currentSound then
+            currentSound:Stop()
+            currentSound:Destroy()
+            currentSound = nil
+        end
+        local s = Instance.new("Sound")
+        s.SoundId = musicIDInput
+        s.Volume = 0.5
+        s.Looped = true
+        s.Parent = game:GetService("SoundService")
+        s:Play()
+        currentSound = s
+        Fluent:Notify({ Title = "Music", Content = "Now playing!", Duration = 3 })
+    end,
+})
+
+Tabs.Music:AddButton({
+    Title = "Stop", Description = "Stops the currently playing track",
+    Callback = function()
+        if currentSound then
+            currentSound:Stop()
+            currentSound:Destroy()
+            currentSound = nil
+            Fluent:Notify({ Title = "Music", Content = "Stopped.", Duration = 2 })
+        else
+            Fluent:Notify({ Title = "Music", Content = "Nothing is playing.", Duration = 2 })
+        end
+    end,
+})
+
+local VolSlider = Tabs.Music:AddSlider("MusicVol", {
+    Title = "Volume", Default = 50, Min = 0, Max = 100, Rounding = 0,
+})
+VolSlider:OnChanged(function(v)
+    if currentSound then currentSound.Volume = v / 100 end
+end)
+
+-- ============================================================
+-- // PATCH NOTES
+-- ============================================================
+Tabs.Patches:AddParagraph({
+    Title   = "v1.0.0 — v14.90.90",
+    Content = "From v1.0.0 to v14.90.90 there is no patch notes.",
+})
+Tabs.Patches:AddParagraph({
+    Title   = "v15.0.0",
+    Content = "Divinity rewritten from scratch with Fluent UI.\nAdded: God Mode, Bring NPCs, Speed, FOV, Infinite Jump.",
+})
+Tabs.Patches:AddParagraph({
+    Title   = "v15.1.0",
+    Content = "Added: NPC ESP with name and HP labels.\nAdded: Highlight Chams with color customization.",
+})
+Tabs.Patches:AddParagraph({
+    Title   = "v15.2.0",
+    Content = "Added: Side health bar (vertical, left/right).\nAdded: ESP font selector with 8 font options.",
+})
+Tabs.Patches:AddParagraph({
+    Title   = "v15.3.0",
+    Content = "Added: Camera Distance Bypass.\nAdded: Script Executor tab with custom script input.",
+})
+Tabs.Patches:AddParagraph({
+    Title   = "v15.4.0",
+    Content = "Added: Key System with game check warning.\nFixed: Disable All Sounds callback error.",
+})
+Tabs.Patches:AddParagraph({
+    Title   = "v15.5.0",
+    Content = "Added: CI Marik script preset.\nAdded: Infinite Yield preset.\nFixed: Combat tab toggles not working.",
+})
+Tabs.Patches:AddParagraph({
+    Title   = "v15.6.0",
+    Content = "Added: Bring NPCs throttle to fix lobby lag.\nFixed: SoundService.Volume error removed.",
+})
+Tabs.Patches:AddParagraph({
+    Title   = "v15.7.0",
+    Content = "Added: Destroy UI on Execute toggle.\nAdded: Supported Executors list on Home tab.",
+})
+Tabs.Patches:AddParagraph({
+    Title   = "v15.8.0",
+    Content = "Added: Ronix to supported executors.\nFixed: Key obfuscation improved.",
+})
+Tabs.Patches:AddParagraph({
+    Title   = "v15.9.0",
+    Content = "Added: UI blur effect when script is open.\nFixed: ESP colorpicker callbacks.",
+})
+Tabs.Patches:AddParagraph({
+    Title   = "v15.10.0",
+    Content = "Added: Game ID whitelist (skip warning for supported games).\nFixed: Welcome message title.",
+})
+Tabs.Patches:AddParagraph({
+    Title   = "v15.11.0",
+    Content = "Added: GDEV SMELLING SALTS notification on load.\nFixed: Executor detection for Ronix.",
+})
+Tabs.Patches:AddParagraph({
+    Title   = "v15.12.0  (Current)",
+    Content = "Added: Kill Aura with distance slider.\nAdded: Modded Weapons button in Combat tab.\nAdded: Custom Crosshair with spin, cursor follow, size, gap, thickness, color.\nAdded: Music tab with Roblox ID player and volume control.\nAdded: Patch Notes tab.\nFixed: Health bar is now a proper vertical side bar.\nFixed: Disable All Sounds lag loop removed.",
+})
+
+-- ============================================================
 -- // SETTINGS
 -- ============================================================
 local MuteToggle = Tabs.Settings:AddToggle("MuteAll", {
-    Title = "Disable All Sounds", Description = "Mutes every SFX and Music track in the game", Default = false,
+    Title = "Disable All Sounds", Description = "Mutes every SFX and Music track", Default = false,
 })
 MuteToggle:OnChanged(function(v)
     Toggles.MuteAll = v
     for _, s in ipairs(game:GetDescendants()) do
-        if s:IsA("Sound") then
-            s.Volume = v and 0 or 0.5
-        end
+        if s:IsA("Sound") then s.Volume = v and 0 or 0.5 end
     end
 end)
-
 game.DescendantAdded:Connect(function(obj)
-    if Toggles.MuteAll and obj:IsA("Sound") then
-        task.wait()
-        obj.Volume = 0
-    end
+    if Toggles.MuteAll and obj:IsA("Sound") then task.wait() obj.Volume = 0 end
 end)
 
 SaveManager:SetLibrary(Fluent)
@@ -882,9 +1131,7 @@ RunService.Heartbeat:Connect(function()
         hum.Health = hum.MaxHealth
     end
 
-    if Toggles.Speed and hum then
-        hum.WalkSpeed = SpeedValue
-    end
+    if Toggles.Speed and hum then hum.WalkSpeed = SpeedValue end
 
     if Toggles.FOV then
         local cam = workspace.CurrentCamera
@@ -901,6 +1148,41 @@ RunService.Heartbeat:Connect(function()
                 end
             end
         end
+    end
+
+    -- Kill Aura (throttled to every 0.1s)
+    if Toggles.KillAura and root and (now - lastKillAura) >= 0.1 then
+        lastKillAura = now
+        local tool = char:FindFirstChildOfClass("Tool")
+        for _, obj in ipairs(workspace:GetDescendants()) do
+            if obj:IsA("Humanoid") and obj.Parent ~= char and obj.Health > 0 then
+                local npcRoot = obj.Parent:FindFirstChild("HumanoidRootPart")
+                if npcRoot then
+                    local dist = (root.Position - npcRoot.Position).Magnitude
+                    if dist <= KillAuraDist then
+                        if tool then
+                            local activate = tool:FindFirstChild("Activate") or tool:FindFirstChildOfClass("LocalScript")
+                            pcall(function()
+                                tool:Activate()
+                            end)
+                        end
+                        -- Fallback: damage via humanoid directly
+                        pcall(function() obj:TakeDamage(10) end)
+                    end
+                end
+            end
+        end
+    end
+
+    -- Crosshair update
+    if Toggles.Crosshair then
+        if Toggles.CrosshairSpin then
+            crosshairAngle = (crosshairAngle + spinSpeed) % 360
+        end
+        updateCrosshair()
+    else
+        for _, l in ipairs(chLines) do l.Visible = false end
+        chDot.Visible = false
     end
 end)
 
